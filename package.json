@@ -1,0 +1,30 @@
+{
+  "name": "api-perkins-painting",
+  "version": "1.0.0",
+  "description": "Serverless Backend",
+  "main": "handler.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelkperkins/api-perkins-painting.git"
+  },
+  "keywords": [
+    "serverless",
+    "lambda",
+    "aws",
+    "dynamodb",
+    "node",
+    "auth0"
+  ],
+  "author": "Joel K. Perkins <joel.climbs@gmail.com> (www.joelkperkins.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joelkperkins/api-perkins-painting/issues"
+  },
+  "homepage": "https://github.com/joelkperkins/api-perkins-painting#readme",
+  "devDependencies": {
+    "serverless-offline": "^5.12.1"
+  }
+}
