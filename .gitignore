@@ -4,3 +4,10 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+#env
+.env
+
+#keys
+secrets.json
+public_key

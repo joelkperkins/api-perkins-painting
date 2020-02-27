@@ -2,9 +2,10 @@
   "name": "api-perkins-painting",
   "version": "1.0.0",
   "description": "Serverless Backend",
-  "main": "handler.js",
+  "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless offline -s dev"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,26 @@
   "homepage": "https://github.com/joelkperkins/api-perkins-painting#readme",
   "devDependencies": {
     "serverless-offline": "^5.12.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.620.0",
+    "aws-serverless-express": "^3.3.6",
+    "body-parser": "^1.19.0",
+    "cookies": "^0.8.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.6.2",
+    "jwt-simple": "^0.5.6",
+    "passport": "^0.4.1",
+    "passport-auth0": "^1.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-oauth2-jwt-bearer": "^0.2.0",
+    "serverless": "^1.63.0",
+    "serverless-express": "^2.0.11",
+    "serverless-http": "^2.3.1",
+    "uuid": "^3.4.0"
   }
 }

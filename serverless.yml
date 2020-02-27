@@ -1,13 +1,16 @@
-org: joelclimbs
-service: api-perkins-painting
 app: api-perkins-painting-app
+org: joelclimbs
+service: user-api-perkins-painting
 provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    USERS: users
+    CONTRACTS: contracts
+    AUTH0_CLIENT_ID: ${file(./secrets.json):AUTH0_CLIENT_ID}
+    AUTH0_CLIENT_PUBLIC_KEY: ${file(./secrets.json):AUTH0_CLIENT_ID}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,69 +18,22 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.CONTRACTS}"
 
 functions:
-  create:
-    handler: todos/create.create
+  server:
+    handler: index.api
     events:
-      - http:
-          path: todos
-          method: post
-          cors: true
-
-  list:
-    handler: todos/list.list
-    events:
-      - http:
-          path: todos
-          method: get
-          cors: true
-
-  get:
-    handler: todos/get.get
-    events:
-      - http:
-          path: todos/{id}
-          method: get
-          cors: true
-
-  update:
-    handler: todos/update.update
-    events:
-      - http:
-          path: todos/{id}
-          method: put
-          cors: true
-
-  delete:
-    handler: todos/delete.delete
-    events:
-      - http:
-          path: todos/{id}
-          method: delete
-          cors: true
+      - http: ANY /
+      - http: 'ANY {proxy+}'
 
 plugins:
   - serverless-offline
-
-resources:
-  Resources:
-    TodosDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: id
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+  - serverless-express
